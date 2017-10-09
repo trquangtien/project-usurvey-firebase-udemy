@@ -19,7 +19,7 @@ class Uservey extends React.Component {
 
         this.state = {
             uid: uuid.v1(),
-            studentName: '',
+            studentName: 'Tien',
             answers: {
                 answer1: '',
                 answer2: '',
@@ -37,6 +37,14 @@ class Uservey extends React.Component {
         });
     }
 
+    answerSelected() {
+
+    }
+
+    submitQuestion() {
+
+    }
+
     render() {
         var studentName;
         var questions;
@@ -48,6 +56,40 @@ class Uservey extends React.Component {
                     <input id="txtStudentName" type="text" placeholder="Enter your name" ref="txtStudentName" />
                 </form>
             </div>
+        }
+        else if (this.state.studentName != '' && this.state.isSubmited === false) {
+            studentName = <h1>Welcome to U-Servey, {this.state.studentName}</h1>;
+            questions = <div>
+                <h2>Here are some questions: </h2>
+                <form onSubmit={this.submitQuestion.bind(this)}>
+                    <div className="card">
+                        <label>What programing language you like the most:</label><br />
+                        <input type="radio" name="answer1" value="react" onChange={this.answerSelected.bind(this)} />React JS
+                        <input type="radio" name="answer1" value="angular" onChange={this.answerSelected.bind(this)} />Angular JS
+                        <input type="radio" name="answer1" value="vue" onChange={this.answerSelected.bind(this)} />Vue JS
+                    </div>
+
+                    <div className="card">
+                        <label>You are a:</label><br />
+                        <input type="radio" name="answer1" value="student" onChange={this.answerSelected.bind(this)} />Student
+                        <input type="radio" name="answer1" value="injob" onChange={this.answerSelected.bind(this)} />In Job
+                        <input type="radio" name="answer1" value="lookingjob" onChange={this.answerSelected.bind(this)} />Looking Job
+                    </div>
+
+                    <div className="card">
+                        <label>Is online learning helpful:</label><br />
+                        <input type="radio" name="answer1" value="yes" onChange={this.answerSelected.bind(this)} />Yes
+                        <input type="radio" name="answer1" value="no" onChange={this.answerSelected.bind(this)} />No
+                        <input type="radio" name="answer1" value="maybe" onChange={this.answerSelected.bind(this)} />Maybe
+                    </div>
+
+                    <input className="feedback-button" type="submit" value="Submit" />
+                </form>
+                <br />
+            </div>
+        }
+        else if (this.state.isSubmited === true) {
+            studentName = <h1>Thanks, {this.state.studentName}</h1>
         }
 
         return (
