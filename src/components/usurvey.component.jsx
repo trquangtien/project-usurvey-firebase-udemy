@@ -19,7 +19,7 @@ class Uservey extends React.Component {
 
         this.state = {
             uid: uuid.v1(),
-            studentName: 'Tien',
+            studentName: '',
             answers: {
                 answer1: '',
                 answer2: '',
@@ -37,12 +37,35 @@ class Uservey extends React.Component {
         });
     }
 
-    answerSelected() {
+    answerSelected(event) {
+        var answers = this.state.answers;
 
+        if (event.target.name === 'answer1') {
+            answers.answer1 = event.target.value;
+        }
+        else if (event.target.name === 'answer2') {
+            answers.answer2 = event.target.value;
+        }
+        else if (event.target.name === 'answer3') {
+            answers.answer3 = event.target.value;
+        }
+
+        this.setState({
+            answers: answers
+        }, () => {
+            console.log(this.state);
+        });
     }
 
     submitQuestion() {
+        firebase.database().ref('uSurvey/' + this.state.uid).set({
+            studentName: this.state.studentName,
+            answers: this.state.answers
+        });
 
+        this.setState({
+            isSubmited: true
+        });
     }
 
     render() {
@@ -71,16 +94,16 @@ class Uservey extends React.Component {
 
                     <div className="card">
                         <label>You are a:</label><br />
-                        <input type="radio" name="answer1" value="student" onChange={this.answerSelected.bind(this)} />Student
-                        <input type="radio" name="answer1" value="injob" onChange={this.answerSelected.bind(this)} />In Job
-                        <input type="radio" name="answer1" value="lookingjob" onChange={this.answerSelected.bind(this)} />Looking Job
+                        <input type="radio" name="answer2" value="student" onChange={this.answerSelected.bind(this)} />Student
+                        <input type="radio" name="answer2" value="injob" onChange={this.answerSelected.bind(this)} />In Job
+                        <input type="radio" name="answer2" value="lookingjob" onChange={this.answerSelected.bind(this)} />Looking Job
                     </div>
 
                     <div className="card">
                         <label>Is online learning helpful:</label><br />
-                        <input type="radio" name="answer1" value="yes" onChange={this.answerSelected.bind(this)} />Yes
-                        <input type="radio" name="answer1" value="no" onChange={this.answerSelected.bind(this)} />No
-                        <input type="radio" name="answer1" value="maybe" onChange={this.answerSelected.bind(this)} />Maybe
+                        <input type="radio" name="answer3" value="yes" onChange={this.answerSelected.bind(this)} />Yes
+                        <input type="radio" name="answer3" value="no" onChange={this.answerSelected.bind(this)} />No
+                        <input type="radio" name="answer3" value="maybe" onChange={this.answerSelected.bind(this)} />Maybe
                     </div>
 
                     <input className="feedback-button" type="submit" value="Submit" />
